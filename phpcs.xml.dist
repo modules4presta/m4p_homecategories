@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="M4P Module">
+    <description>Coding standard for Modules4Presta PrestaShop modules.</description>
+
+    <file>.</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/dist/*</exclude-pattern>
+    <exclude-pattern>*/build/*</exclude-pattern>
+    <exclude-pattern>*/translations/*</exclude-pattern>
+    <exclude-pattern>*/index.php</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+    <!--
+        PSR-12 ships with PHP_CodeSniffer out of the box, so no extra
+        installer or external standard is required. If you later want to
+        plug in the PrestaShop ruleset, add its package to composer.json
+        (e.g. prestashop/prestashop-coding-standards) and reference it
+        here by name or path.
+    -->
+    <rule ref="PSR12">
+        <!-- Legacy PrestaShop module files mix side-effects and a class
+             in the same file (e.g. defining the module class alongside a
+             require_once). That's required by the platform. -->
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+        <!-- PrestaShop modules declare classes whose names intentionally
+             do not match StudlyCaps (e.g. M4p_myModule). -->
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
+    </rule>
+
+    <config name="php_version" value="70205"/>
+</ruleset>

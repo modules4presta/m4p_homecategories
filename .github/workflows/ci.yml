@@ -1,0 +1,116 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+
+jobs:
+  lint:
+    name: PHP syntax check (php -l)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4', '8.1', '8.2']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: none
+          coverage: none
+
+      - name: Run php -l on every PHP file
+        run: |
+          set -e
+          FILES=$(find . -type f -name '*.php' \
+            -not -path './vendor/*' \
+            -not -path './node_modules/*' \
+            -not -path './.git/*')
+          if [ -z "$FILES" ]; then
+            echo "No PHP files to lint."
+            exit 0
+          fi
+          echo "$FILES" | xargs -n 1 php -l
+
+  phpcs:
+    name: PHP_CodeSniffer (PrestaShop ruleset)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache composer deps
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dev deps
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHPCS
+        run: vendor/bin/phpcs --report=full --report-width=140
+
+  php-cs-fixer:
+    name: PHP-CS-Fixer (dry-run)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache composer deps
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dev deps
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHP-CS-Fixer
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
+
+  verify-version:
+    name: Verify module version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check that config.xml and main module file versions match
+        run: |
+          set -e
+          MODULE_FILE=$(ls *.php | grep -v '^index\.php$' | head -n 1)
+          if [ -z "$MODULE_FILE" ]; then
+            echo "No main module PHP file found in repo root." >&2
+            exit 1
+          fi
+          PHP_VERSION=$(grep -oE "\\\$this->version\s*=\s*'[^']+'" "$MODULE_FILE" | head -n 1 | sed -E "s/.*'([^']+)'.*/\1/")
+          XML_VERSION=$(grep -oE '<version><!\[CDATA\[[^]]+\]\]></version>' config.xml | head -n 1 | sed -E 's/.*CDATA\[(.*)\]\].*/\1/')
+          echo "PHP module version : $PHP_VERSION"
+          echo "config.xml version : $XML_VERSION"
+          if [ -z "$PHP_VERSION" ] || [ -z "$XML_VERSION" ]; then
+            echo "Could not extract one of the versions." >&2
+            exit 1
+          fi
+          if [ "$PHP_VERSION" != "$XML_VERSION" ]; then
+            echo "Version mismatch between $MODULE_FILE and config.xml" >&2
+            exit 1
+          fi

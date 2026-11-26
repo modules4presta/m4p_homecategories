@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="views/templates/hook/categories.tpl" source-language="en-US" target-language="en-US" datatype="plaintext">
+    <body>
+      <trans-unit id="a8567ec8887eb41c7870b3a624524a46">
+        <source>Catalogue</source>
+        <target state="final">Catalogue</target>
+      </trans-unit>
+      <trans-unit id="c772300ff576b15a9cfb9aeefff97ead">
+        <source>Whole catalogue</source>
+        <target state="final">Whole catalogue</target>
+      </trans-unit>
+      <trans-unit id="45d8c9d22d17111f41065596e56520f7">
+        <source>Everything in this department</source>
+        <target state="final">Everything in this department</target>
+      </trans-unit>
+      <trans-unit id="ee1c9ea61c04ddfad47f47cd72c3f643">
+        <source>%count% product</source>
+        <target state="final">%count% product</target>
+      </trans-unit>
+      <trans-unit id="78de86a20eb025cb0250bb9ae048678b">
+        <source>%count% products</source>
+        <target state="final">%count% products</target>
+      </trans-unit>
+      <trans-unit id="4074e7efe1c928aab6f54adfd092e9a6">
+        <source>%count% products, many</source>
+        <target state="final">%count% products</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

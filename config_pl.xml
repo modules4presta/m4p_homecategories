@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>m4p_homecategories</name>
+	<displayName><![CDATA[Katalog na stronie głównej]]></displayName>
+	<version><![CDATA[2.0.3]]></version>
+	<description><![CDATA[Pokazuje działy katalogu z miniaturą, podkategoriami i liczbą produktów.]]></description>
+	<author><![CDATA[Modules4Presta]]></author>
+	<tab><![CDATA[front_office_features]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>0</need_instance>
+</module>
