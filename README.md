@@ -72,6 +72,7 @@ No. The departments and their subcategories are read from the category tree on e
 
 **Where does the thumbnail come from?**
 From the category thumbnail set in **Catalog → Categories**, or the category cover image when there is no thumbnail.
+When the image size is missing (a theme enabled after the images were uploaded), **Design → Image settings → Regenerate thumbnails** creates it; with the m4p_core module installed it is created on the first view.
 
 **Can I undo the installation?**
 Yes. Uninstalling deletes the module setting; categories and images are not touched.
