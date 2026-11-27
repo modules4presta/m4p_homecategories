@@ -23,7 +23,7 @@ class M4p_Homecategories extends Module
     {
         $this->name = 'm4p_homecategories';
         $this->tab = 'front_office_features';
-        $this->version = '2.0.3';
+        $this->version = '2.0.4';
         $this->author = 'Modules4Presta';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -160,6 +160,7 @@ class M4p_Homecategories extends Module
         $departments = [];
         $thumbnailType = $this->thumbnailType();
         $webp = in_array('webp', explode(',', (string) Configuration::get('PS_IMAGE_FORMAT')), true);
+        $makeSizes = Module::isEnabled('m4p_core') && Module::getInstanceByName('m4p_core') && class_exists('M4pCoreCategoryImage');
 
         foreach (Category::getChildren($parentId, $langId, true) as $row) {
             $id = (int) $row['id_category'];
@@ -167,6 +168,9 @@ class M4p_Homecategories extends Module
             $imageWebp = '';
             foreach ([$id . '_thumb', (string) $id] as $name) {
                 if (file_exists(_PS_CAT_IMG_DIR_ . $name . '.jpg')) {
+                    if ($makeSizes) {
+                        M4pCoreCategoryImage::ensure($name, $thumbnailType);
+                    }
                     $image = $link->getCatImageLink($row['link_rewrite'], $name, $thumbnailType);
                     if ($webp && file_exists(_PS_CAT_IMG_DIR_ . $name . '-' . $thumbnailType . '.webp')) {
                         $imageWebp = $link->getCatImageLink($row['link_rewrite'], $name, $thumbnailType, 'webp');

@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/).
 
+## [2.0.4] - 2026-11-27
+
+### Added
+
+- With the m4p_core module 1.25.0 or later, a department image size the shop has not generated yet (for example
+  after enabling a theme with its own image types) is generated on the first view of the home page.
+
 ## [2.0.3] - 2026-11-26
 
 ### Added

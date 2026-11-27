@@ -2,7 +2,7 @@
 <module>
 	<name>m4p_homecategories</name>
 	<displayName><![CDATA[Home Catalogue]]></displayName>
-	<version><![CDATA[2.0.3]]></version>
+	<version><![CDATA[2.0.4]]></version>
 	<description><![CDATA[Shows the catalogue departments with a thumbnail, subcategories and product count on the home page.]]></description>
 	<author><![CDATA[Modules4Presta]]></author>
 	<tab><![CDATA[front_office_features]]></tab>

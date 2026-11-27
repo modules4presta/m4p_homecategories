@@ -2,7 +2,7 @@
 <module>
 	<name>m4p_homecategories</name>
 	<displayName><![CDATA[Katalog na stronie głównej]]></displayName>
-	<version><![CDATA[2.0.3]]></version>
+	<version><![CDATA[2.0.4]]></version>
 	<description><![CDATA[Pokazuje działy katalogu z miniaturą, podkategoriami i liczbą produktów.]]></description>
 	<author><![CDATA[Modules4Presta]]></author>
 	<tab><![CDATA[front_office_features]]></tab>
